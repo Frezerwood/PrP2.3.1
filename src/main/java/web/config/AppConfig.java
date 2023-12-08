@@ -44,10 +44,11 @@ public class AppConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(getDataSource());
-        factory.setPackagesToScan("db.entity.package");
+        factory.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
         //factory.setPersistenceUnitManager(persistenceUnitManager());
 
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        //factory.setJpaProperties(getHibernateProperties());
 
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -58,7 +59,16 @@ public class AppConfig {
         return factory;
     }
 
+//    private Properties getHibernateProperties() {
+//        return hibernateProperties;
+//    }
 
+    @Bean
+    public PlatformTransactionManager platformTransactionManager() {
+        JpaTransactionManager manager = new JpaTransactionManager();
+        manager.setEntityManagerFactory(entityManagerFactory().getObject());
+        return manager;
+    }
 
 //    @Bean
 //    public LocalSessionFactoryBean getSessionFactory() {
