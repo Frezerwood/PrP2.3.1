@@ -20,32 +20,43 @@ public class UserController {
     public String listUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "list";
+        return "listUsers";
     }
 
-    @GetMapping("/showFormForAdd")
-    public String showFormForAdd(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "user-form";
+    @GetMapping("/addUser")
+    public String createUserForm(User user){
+        return "addUser";
+    }
+    @PostMapping("/addUser")
+    public String createUser(User user){
+        userService.saveUser(user);
+        return "redirect:/list";
     }
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
-        return "redirect:/employees/list";
+        return "redirect:/list";
     }
 
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("userId") Long id, Model model) {
         User  user = userService.getUserById(id);
         model.addAttribute("user", user);
-        return "employee-form";
+        return "userUpdate";
     }
 
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam("userId") Long id) {
+    @GetMapping("/user-update")
+    public String updateUserForm(@RequestParam(name = "id") Long id, Model model){
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "userUpdate";
+    }
+
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@RequestParam(name = "id") Long id) {
         userService.deleteUser(id);
-        return "redirect:/employees/list";
+        return "redirect:/list";
     }
 }
