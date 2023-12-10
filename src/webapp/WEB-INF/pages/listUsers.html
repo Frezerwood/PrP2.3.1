@@ -1,0 +1,32 @@
+<!-- list-employees.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User List</title>
+</head>
+<body>
+<h2>User List</h2>
+<table >
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.age}"></td>
+        <td><a th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
+        <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<p><a href="/addUser">Create user</a></p>
+</body>
+</html>
