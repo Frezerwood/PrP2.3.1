@@ -24,11 +24,12 @@ public class UserController {
     }
 
     @GetMapping("/addUser")
-    public String createUserForm(User user){
+    public String createUserForm(User user) {
         return "addUser";
     }
+
     @PostMapping("/addUser")
-    public String createUser(User user){
+    public String createUser(User user) {
         userService.saveUser(user);
         return "redirect:/list";
     }
@@ -39,22 +40,20 @@ public class UserController {
         return "redirect:/list";
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("userId") Long id, Model model) {
-        User  user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "userUpdate";
+    @PostMapping("/user-update")
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam(name = "id") Long id) {
+        userService.updateUser(user);
+        return "redirect:/list";
     }
 
     @GetMapping("/user-update")
-    public String updateUserForm(@RequestParam(name = "id") Long id, Model model){
+    public String updateUserForm(@RequestParam(name = "id") Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "userUpdate";
     }
 
-
-    @DeleteMapping("/delete")
+    @GetMapping("/delete")
     public String deleteUser(@RequestParam(name = "id") Long id) {
         userService.deleteUser(id);
         return "redirect:/list";

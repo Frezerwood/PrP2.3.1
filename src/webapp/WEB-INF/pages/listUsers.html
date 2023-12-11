@@ -32,7 +32,6 @@
             <td th:text="${user.surname}"></td>
             <td th:text="${user.age}"></td>
             <td><a th:href="@{user-update(id=${user.id})}">Edit</a></td>
-            <!-- <td><a th:href="@{delete/{id}(id=${user.id})}">Delete</a></td> -->
             <td><a th:href="@{delete(id=${user.id})}" onclick="return confirm('Are you sure?')">Delete</a></td>
         </tr>
         </tbody>
